@@ -1,0 +1,101 @@
+name: Update qasectl formula
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout tap
+        uses: actions/checkout@v4
+
+      - name: Check for new release
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LATEST=$(gh release view --repo qase-tms/qasectl --json tagName --jq '.tagName' | sed 's/^v//')
+          CURRENT=$(grep '^  version ' Formula/qasectl.rb | sed 's/.*"\(.*\)".*/\1/')
+          echo "latest=$LATEST" >> "$GITHUB_OUTPUT"
+          echo "current=$CURRENT" >> "$GITHUB_OUTPUT"
+          if [ "$LATEST" = "$CURRENT" ]; then
+            echo "update=false" >> "$GITHUB_OUTPUT"
+            echo "Formula is up to date ($CURRENT)"
+          else
+            echo "update=true" >> "$GITHUB_OUTPUT"
+            echo "Update available: $CURRENT -> $LATEST"
+          fi
+
+      - name: Update formula
+        if: steps.check.outputs.update == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.check.outputs.latest }}
+        run: |
+          BASE_URL="https://github.com/qase-tms/qasectl/releases/download/v${VERSION}"
+
+          curl -fSL -o darwin-arm64 "${BASE_URL}/qasectl-darwin-arm64"
+          curl -fSL -o darwin-amd64 "${BASE_URL}/qasectl-darwin-amd64"
+          curl -fSL -o linux-arm64  "${BASE_URL}/qasectl-linux-arm64"
+          curl -fSL -o linux-amd64  "${BASE_URL}/qasectl-linux-amd64"
+
+          SHA_DARWIN_ARM64=$(sha256sum darwin-arm64 | awk '{print $1}')
+          SHA_DARWIN_AMD64=$(sha256sum darwin-amd64 | awk '{print $1}')
+          SHA_LINUX_ARM64=$(sha256sum linux-arm64   | awk '{print $1}')
+          SHA_LINUX_AMD64=$(sha256sum linux-amd64   | awk '{print $1}')
+
+          cat > Formula/qasectl.rb <<EOF
+          class Qasectl < Formula
+            desc "CLI tool for Qase test management"
+            homepage "https://github.com/qase-tms/qasectl"
+            version "${VERSION}"
+
+            on_macos do
+              on_arm do
+                url "https://github.com/qase-tms/qasectl/releases/download/v#{version}/qasectl-darwin-arm64"
+                sha256 "${SHA_DARWIN_ARM64}"
+              end
+              on_intel do
+                url "https://github.com/qase-tms/qasectl/releases/download/v#{version}/qasectl-darwin-amd64"
+                sha256 "${SHA_DARWIN_AMD64}"
+              end
+            end
+
+            on_linux do
+              on_arm do
+                url "https://github.com/qase-tms/qasectl/releases/download/v#{version}/qasectl-linux-arm64"
+                sha256 "${SHA_LINUX_ARM64}"
+              end
+              on_intel do
+                url "https://github.com/qase-tms/qasectl/releases/download/v#{version}/qasectl-linux-amd64"
+                sha256 "${SHA_LINUX_AMD64}"
+              end
+            end
+
+            def install
+              binary = Dir["qasectl-*"].first
+              mv binary, "qasectl"
+              bin.install "qasectl"
+            end
+
+            test do
+              assert_match "Qase CLI", shell_output("#{bin}/qasectl version")
+            end
+          end
+          EOF
+
+      - name: Commit and push
+        if: steps.check.outputs.update == 'true'
+        env:
+          VERSION: ${{ steps.check.outputs.latest }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/qasectl.rb
+          git commit -m "feat: update qasectl to ${VERSION}"
+          git push

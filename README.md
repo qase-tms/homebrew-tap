@@ -1,6 +1,6 @@
 # Qase Homebrew Tap
 
-Official Homebrew formulae for [Qase](https://qase.io) tools.
+Official Homebrew formulae and casks for [Qase](https://qase.io) tools.
 
 ## Installation
 
@@ -8,26 +8,25 @@ Official Homebrew formulae for [Qase](https://qase.io) tools.
 brew tap qase-tms/tap
 ```
 
-## Available Formulae
+## Available
 
-| Formula | Description | Install |
-|---------|-------------|---------|
-| [qasectl](https://github.com/qase-tms/qasectl) | CLI tool for Qase test management | `brew install qasectl` |
+| Name | Type | Description | Install |
+|---|---|---|---|
+| [qasectl](https://github.com/qase-tms/qasectl) | Formula | CLI for Qase test management | `brew install qase-tms/tap/qasectl` |
+| [qase-tunnel](https://github.com/qase-tms/qase-tunnel) | Cask | Customer-side tunnel for private-host access from Qase Cloud | `brew install --cask qase-tms/tap/qase-tunnel` |
 
 ## Usage
 
-After tapping, install any formula by name:
-
 ```bash
-brew install qasectl
+# CLI formula
+brew install qase-tms/tap/qasectl
+
+# Cask (pre-built binary)
+brew install --cask qase-tms/tap/qase-tunnel
 ```
 
-To update to the latest version:
-
-```bash
-brew upgrade qasectl
-```
+Upgrade with `brew upgrade <name>` or `brew upgrade --cask <name>` respectively.
 
 ## How It Works
 
-Formulae are automatically updated when new releases are published in their source repositories.
+Formulae and casks are automatically updated by each source repository's release pipeline when a new tag is pushed.

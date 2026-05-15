@@ -1,25 +1,24 @@
 cask "qase-tunnel" do
-  version "0.1.0"
+  version "0.1.0-beta.1"
   arch arm: "arm64", intel: "amd64"
 
-  url "https://github.com/qase-tms/qase-tunnel/releases/download/v#{version}/qase-tunnel-darwin-#{arch}",
+  url "https://github.com/qase-tms/qase-tunnel/releases/download/v#{version}/qase-tunnel_#{version}_darwin_#{arch}.tar.gz",
       verified: "github.com/qase-tms/qase-tunnel/"
   name "qase-tunnel"
   desc "Customer-side CLI for Qase private-host tunnels"
   homepage "https://github.com/qase-tms/qase-tunnel"
 
-  sha256 arm:   "793d96cdd19e932deec8004bef9eca2d857dc34ee9e85196b9449de39d088b98",
-         intel: "6e3989d213131db8e9bfcc4d115416313628e92402e4c1009f9b60e7055be19f"
+  sha256 arm:   "a6994355e50f3ae076323498b769a491dcbb00c4cd7bda1e185a0aa1254b0d58",
+         intel: "82d9cece121021aaae352eeaab3f404ed94e09b731001401764f594a875c8085"
 
-  # Rename the platform-suffixed binary to plain `qase-tunnel` on install.
-  binary "qase-tunnel-darwin-#{arch}", target: "qase-tunnel"
+  binary "qase-tunnel"
 
   # Releases are unsigned today. Drop the macOS quarantine xattr so first
   # launch doesn't trip Gatekeeper. Remove this block once codesign +
   # notarytool secrets are configured on the qase-tunnel release workflow.
   postflight do
     system_command "/usr/bin/xattr",
-                   args: ["-dr", "com.apple.quarantine", "#{staged_path}/qase-tunnel-darwin-#{arch}"]
+                   args: ["-dr", "com.apple.quarantine", "#{staged_path}/qase-tunnel"]
   end
 
   zap trash: [

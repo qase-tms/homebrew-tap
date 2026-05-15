@@ -1,0 +1,19 @@
+Casks/qase-tunnel.rb
+  s_715900a013b326::t_150425b3efa730 2,5,11-12,14,21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "519ba362786e190f4220b1fbb18003d170a04f2f",
+  "prompts": {},
+  "sessions": {
+    "s_715900a013b326": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6429d81f-85ac-40ef-a49a-12d9a679d95f",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Nikolay Pisarev <npisarev@qase.io>"
+    }
+  }
+}

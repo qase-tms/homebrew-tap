@@ -1,27 +1,27 @@
 class Qasectl < Formula
   desc "CLI tool for Qase test management"
   homepage "https://github.com/qase-tms/qasectl"
-  version "0.4.0"
+  version "0.5.1"
 
   on_macos do
     on_arm do
       url "https://github.com/qase-tms/qasectl/releases/download/v#{version}/qasectl-darwin-arm64"
-      sha256 "79215ed5e9e7b63a03c93e69b0ceb13b1832e9ffcf7f31d7c35e2546deda6c58"
+      sha256 "3d024e0ec097e5801a12c1a39304db7d2ebf50bae5799c280a6fa60fa2c5e14d"
     end
     on_intel do
       url "https://github.com/qase-tms/qasectl/releases/download/v#{version}/qasectl-darwin-amd64"
-      sha256 "f5a455233ed6f6be70caf861b94022c5d8d91917a0cf8c7aae64d384f3e8e6cf"
+      sha256 "4335fa04cb70d0a2080cd466f47e6b2afb21a18ab57fa365af25200c5653e355"
     end
   end
 
   on_linux do
     on_arm do
       url "https://github.com/qase-tms/qasectl/releases/download/v#{version}/qasectl-linux-arm64"
-      sha256 "4bef7ae1fbccabff551fc8913ed5abe908055c16e64e49d698bd6f5f00a2e6aa"
+      sha256 "792852a95bcbf96ead959ed4063427650c155a88e10c355164b72602474a8849"
     end
     on_intel do
       url "https://github.com/qase-tms/qasectl/releases/download/v#{version}/qasectl-linux-amd64"
-      sha256 "20760c82843ff2273653056c81ec54bd7943b4b3fefa6a78d268c9693fe94ccb"
+      sha256 "92d8542e301f35803f4fa1fd9f04fbc7ea3851808320aee8c36b45dedc34a968"
     end
   end
 

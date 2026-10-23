@@ -8,25 +8,25 @@ cask "tiden" do
     end
   end
 
-  version "0.39.0"
+  version "0.41.0"
 
   on_macos do
     on_arm do
-      sha256 "3fb99dc2d5bd93d4c5ed4885cb592d8ce27566bb5f475eb728b7d5188a54f571"
+      sha256 "4829fd814f1b322cf72a850418e86dac010ed5c24875f24bc8002a976fa8c6d5"
       url "https://github.com/qase-tms/homebrew-tap/releases/download/v#{version}/tiden_darwin_arm64.tar.gz"
     end
     on_intel do
-      sha256 "3c96f0079b90dad192ebb8b9c9aa8b8807fef1ee3f0f7a2eb403a9f5d1078fca"
+      sha256 "7b25ed3881958e26a6759dd34f6ea1b517a355564bf63ff275e515b14a0d532e"
       url "https://github.com/qase-tms/homebrew-tap/releases/download/v#{version}/tiden_darwin_amd64.tar.gz"
     end
   end
   on_linux do
     on_arm do
-      sha256 "79969c6eef8c57574c2afec209bdb55d652d913a1092a1d769e73fcfeb4300d2"
+      sha256 "1ea0b9b19b4aad28a426cdbd49ab579cbc561eaf255fa3df8defe676176614fd"
       url "https://github.com/qase-tms/homebrew-tap/releases/download/v#{version}/tiden_linux_arm64.tar.gz"
     end
     on_intel do
-      sha256 "246de0f7f82fd0e79723c699741a948a02d986056f158d3caf9b3e5b1c7f8be8"
+      sha256 "d42fca58f868dc22be1aa01187105a1c442b4a32c88e9c47ac2f051ef05fb286"
       url "https://github.com/qase-tms/homebrew-tap/releases/download/v#{version}/tiden_linux_amd64.tar.gz"
     end
   end
